@@ -207,6 +207,9 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     for epoch in range(epoch_offset, hparams.epochs):
         print("Epoch: {}".format(epoch))
         for i, batch in enumerate(train_loader):
+            
+            print("에폭 시작")
+            
             start = time.perf_counter()
             for param_group in optimizer.param_groups:
                 param_group['lr'] = learning_rate
@@ -216,6 +219,9 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
             y_pred = model(x)
 
             loss = criterion(y_pred, y)
+            
+            print("로스값",loss)
+            
             if hparams.distributed_run:
                 reduced_loss = reduce_tensor(loss.data, n_gpus).item()
             else:
@@ -226,6 +232,8 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
             else:
                 loss.backward()
 
+            print("중간")
+            
             if hparams.fp16_run:
                 grad_norm = torch.nn.utils.clip_grad_norm_(
                     amp.master_params(optimizer), hparams.grad_clip_thresh)
