@@ -4,9 +4,14 @@ import torch
 
 
 def get_mask_from_lengths(lengths):
+    #max_len = torch.max(lengths).item()
+    #ids = torch.arange(0, max_len, out=torch.cuda.LongTensor(max_len))
+    #mask = (ids < lengths.unsqueeze(1)).bool()
+    #return mask
     max_len = torch.max(lengths).item()
-    ids = torch.arange(0, max_len, out=torch.cuda.LongTensor(max_len))
-    mask = (ids < lengths.unsqueeze(1)).bool()
+    device = lengths.device  # Get the device of the lengths tensor
+    ids = torch.arange(0, max_len, dtype=torch.long, device=device)
+    mask = (ids.unsqueeze(0) < lengths.unsqueeze(1)).bool()
     return mask
 
 
