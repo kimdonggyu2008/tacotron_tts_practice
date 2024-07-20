@@ -57,8 +57,19 @@ class TextMelLoader(torch.utils.data.Dataset):
         text_norm = torch.IntTensor(text_to_sequence(text, self.text_cleaners))
         return text_norm
 
+    #def __getitem__(self, index):
+    #    return self.get_mel_text_pair(self.audiopaths_and_text[index])
     def __getitem__(self, index):
-        return self.get_mel_text_pair(self.audiopaths_and_text[index])
+        audiopath = self.audiopaths_and_text[index]
+        try:
+            mel = self.get_mel(audiopath)
+            # 추가 데이터 반환
+            return self.get_mel_text_pair(self.audiopaths_and_text[index])
+        except FileNotFoundError as e:
+            print(f"FileNotFoundError: {e}")
+            # 예외 처리를 위한 조치 (예: 기본 값 반환)
+            return None
+
 
     def __len__(self):
         return len(self.audiopaths_and_text)
