@@ -33,8 +33,8 @@ def create_hparams(hparams_string=None, verbose=False):
         "load_mel_from_disk":False,
         "load_phone_from_disk":True,
 
-        "training_files":'',
-        "validation_files":'',
+        "training_files":'/kaggle/input/johnoliver/wav',
+        "validation_files":'/kaggle/input/the-lj-speech-dataset/LJSpeech-1.1/wavs',
 
         "text_cleaners":['english_cleaners'],
 
