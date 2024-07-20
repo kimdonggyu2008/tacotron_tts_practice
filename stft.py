@@ -64,9 +64,7 @@ class STFT(torch.nn.Module):
             assert(filter_length >= win_length)
             # get window and zero center pad it to filter_length
             fft_window = get_window(window, win_length, fftbins=True)
-            #fft_window = pad_center(fft_window,filter_length)
-            fft_window = librosa.util.pad_center(data=fft_window,size=filter_length)
-            
+            fft_window = pad_center(fft_window, filter_length)
             fft_window = torch.from_numpy(fft_window).float()
 
             # window the bases
@@ -75,6 +73,7 @@ class STFT(torch.nn.Module):
 
         self.register_buffer('forward_basis', forward_basis.float())
         self.register_buffer('inverse_basis', inverse_basis.float())
+
 
     def transform(self, input_data):
         num_batches = input_data.size(0)
