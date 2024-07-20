@@ -62,8 +62,6 @@ class TextMelLoader(torch.utils.data.Dataset):
     def __getitem__(self, index):
         audiopath = self.audiopaths_and_text[index]
         try:
-            mel = self.get_mel(audiopath)
-            # 추가 데이터 반환
             return self.get_mel_text_pair(self.audiopaths_and_text[index])
         except FileNotFoundError as e:
             print(f"FileNotFoundError: {e}")
