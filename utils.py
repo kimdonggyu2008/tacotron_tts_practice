@@ -10,7 +10,7 @@ def get_mask_from_lengths(lengths):
     #return mask
     max_len = torch.max(lengths).item()
     device = lengths.device  # Get the device of the lengths tensor
-    ids = torch.arange(0, max_len, dtype=torch.long, device=device)
+    ids = torch.tensor(range(max_len), dtype=torch.long, device='cuda')
     mask = (ids.unsqueeze(0) < lengths.unsqueeze(1)).bool()
     return mask
 
